@@ -16,15 +16,20 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Effective Work',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          textTheme: TextTheme(
-              displayLarge: HomePageConsts.displayLarge),
-          appBarTheme: AppBarTheme(
-              color: MainConsts.appBarColor,
-              titleTextStyle: AppBarTextStyle.textStyle),
-        ),
+        theme: _productThemeData(),
         home: const HomePage(),
       ),
     );
+  }
+
+  ThemeData _productThemeData() {
+    return ThemeData(
+        primaryColor: MaterialColorForApp.myWhite,
+        textTheme: TextTheme(
+            displayLarge: HomePageConsts.displayLarge),
+        appBarTheme: AppBarTheme(
+            color: MainConsts.appBarColor,
+            titleTextStyle: AppBarTextStyle.textStyle),
+      );
   }
 }

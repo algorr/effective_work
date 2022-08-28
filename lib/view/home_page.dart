@@ -13,7 +13,11 @@ class HomePage extends StatelessWidget {
     final TextEditingController emailController = TextEditingController();
     return BlocBuilder<CounterCubit, CounterState>(
       builder: (context, state) {
+        var isStarted = BlocProvider.of<CounterCubit>(context).isStarted;
         return Scaffold(
+          backgroundColor: context.read<CounterCubit>().isStarted == false
+              ? Theme.of(context).primaryColor
+              : HomePageConsts.startPomoColor,
           appBar: AppBar(
             title: const Text("Pomo"),
             actions: [
@@ -45,7 +49,9 @@ class HomePage extends StatelessWidget {
                       padding: EdgeInsets.all(
                           MediaQuery.of(context).size.width * .02),
                       child: Text(
-                        'Ready for Deep Dive?',
+                        context.read<CounterCubit>().isStarted == false
+                            ? HomePageConsts.readyTitle
+                            : HomePageConsts.focusTitle,
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
                     ),
@@ -58,8 +64,8 @@ class HomePage extends StatelessWidget {
                   width: 200,
                   height: 200,
                   duration: 60,
-                  fillColor: Colors.blue,
-                  ringColor: Colors.grey,
+                  fillColor: CircularCounterConsts.progressColor,
+                  ringColor: CircularCounterConsts.fillColor,
                   textFormat: 'Start',
                   autoStart: false,
                   controller: context.read<CounterCubit>().controller,
@@ -70,21 +76,20 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Button(
+                      _Button(
                         onPressed: () {
-                          BlocProvider.of<CounterCubit>(context).startCounter();
-                        },
-                        text: 'Start',
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .02,
-                      ),
-                      Button(
-                          onPressed: () {
+                          if (isStarted) {
                             BlocProvider.of<CounterCubit>(context)
                                 .stopCounter();
-                          },
-                          text: 'Break')
+                          } else {
+                            BlocProvider.of<CounterCubit>(context)
+                                .startCounter();
+                          }
+                        },
+                        text: isStarted == false
+                            ? Buttons.startButtonText
+                            : Buttons.stopButtonText,
+                      ),
                     ],
                   ),
                 ),
@@ -96,6 +101,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
+// show model bottom sheet
   Future<dynamic> _showModalWidget(
       BuildContext context,
       TextEditingController nameController,
@@ -135,8 +141,9 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class Button extends StatelessWidget {
-  const Button({
+// for all homepage and bottom sheet buttons
+class _Button extends StatelessWidget {
+  const _Button({
     Key? key,
     required this.onPressed,
     required this.text,
@@ -149,7 +156,9 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: HomePageConsts.buttonColor,
+        primary: context.read<CounterCubit>().isStarted == false
+            ? Buttons.passiceButtonColor
+            : Buttons.activeButtonColor,
       ),
       onPressed: onPressed,
       child: Text(text),
@@ -157,6 +166,7 @@ class Button extends StatelessWidget {
   }
 }
 
+// textfield for bottom sheet
 class _CustomTextField extends StatelessWidget {
   const _CustomTextField({
     Key? key,
