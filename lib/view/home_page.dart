@@ -1,4 +1,5 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:effective_work/consts/main_consts.dart';
 import 'package:effective_work/viewmodel/cubit/counter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,21 +70,21 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
+                      Button(
                         onPressed: () {
                           BlocProvider.of<CounterCubit>(context).startCounter();
                         },
-                        child: const Text('Start'),
+                        text: 'Start',
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * .02,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          BlocProvider.of<CounterCubit>(context).stopCounter();
-                        },
-                        child: const Text('Break'),
-                      ),
+                      Button(
+                          onPressed: () {
+                            BlocProvider.of<CounterCubit>(context)
+                                .stopCounter();
+                          },
+                          text: 'Break')
                     ],
                   ),
                 ),
@@ -131,6 +132,28 @@ class HomePage extends StatelessWidget {
             ),
           );
         });
+  }
+}
+
+class Button extends StatelessWidget {
+  const Button({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: HomePageConsts.buttonColor,
+      ),
+      onPressed: onPressed,
+      child: Text(text),
+    );
   }
 }
 

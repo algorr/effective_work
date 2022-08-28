@@ -14,9 +14,12 @@ class MainConsts {
 }
 
 class AppBarTextStyle {
-  static TextStyle textStyle = TextStyle(color: MainConsts.appBarTitleColor,fontSize: MainConsts.appBarTextSize);
+  static TextStyle textStyle = TextStyle(
+      color: MainConsts.appBarTitleColor, fontSize: MainConsts.appBarTextSize);
 }
 
 class HomePageConsts {
-  static TextStyle displayLarge = const TextStyle(color: Color(0XFF205375),fontSize: 25,fontWeight: FontWeight.bold);
+  static TextStyle displayLarge = const TextStyle(
+      color: Color(0XFF205375), fontSize: 25, fontWeight: FontWeight.bold);
+  static Color buttonColor = const Color(0XFFF66B0E);
 }
