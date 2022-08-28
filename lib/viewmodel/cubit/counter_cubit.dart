@@ -27,6 +27,11 @@ class CounterCubit extends Cubit<CounterState> {
     controller.pause();
   }
 
+  void stopEmitter(){
+    toogleCounterState();
+    emit(CounterStopedState());
+  }
+
   void toogleCounterState() {
     isStarted = !isStarted;
   }

@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         var isStarted = BlocProvider.of<CounterCubit>(context).isStarted;
         return Scaffold(
-          backgroundColor: context.read<CounterCubit>().isStarted == false
+          backgroundColor: context.watch<CounterCubit>().isStarted == false
               ? Theme.of(context).primaryColor
               : HomePageConsts.startPomoColor,
           appBar: AppBar(
@@ -63,12 +63,40 @@ class HomePage extends StatelessWidget {
                 CircularCountDownTimer(
                   width: 200,
                   height: 200,
-                  duration: 60,
+                  duration: 2,
+                  isReverse: true,
                   fillColor: CircularCounterConsts.progressColor,
                   ringColor: CircularCounterConsts.fillColor,
-                  textFormat: 'Start',
                   autoStart: false,
+                  textStyle: isStarted == false
+                      ? CircularCounterConsts.stopStyle
+                      : CircularCounterConsts.startStyle,
                   controller: context.read<CounterCubit>().controller,
+                  onComplete: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25)),
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              width: MediaQuery.of(context).size.height * .01,
+                              child: Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Text('Congrats!'),
+                                    Icon(Icons.check_outlined)
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                    // change state of counterstate
+                    BlocProvider.of<CounterCubit>(context).stopEmitter();
+                  },
                 ),
                 Padding(
                   padding:

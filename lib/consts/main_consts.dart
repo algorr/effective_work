@@ -46,4 +46,8 @@ class Buttons {
 class CircularCounterConsts {
   static Color progressColor = const Color(0XFF205375);
   static Color fillColor =  Colors.grey;
+  static TextStyle stopStyle = const TextStyle(
+      color: Color(0XFF112B3C), fontSize: 35, fontWeight: FontWeight.bold);
+      static TextStyle startStyle = const TextStyle(
+      color: Color(0XFFEFEFEF), fontSize: 35, fontWeight: FontWeight.bold);
 }
